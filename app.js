@@ -67,13 +67,15 @@ const employees = [];
 log(chalk.inverse(' ********************************** '));
 log(chalk.inverse(' *     Team Profile Generator     * '));
 log(chalk.inverse(' ********************************** '));
-log('Let\'s generate an html profile page for your team!\nWe\'ll start with the MANAGER...');
+log('Let\'s generate an html profile page for your team!\nWe\'ll start with the team manager...');
+log(chalk.cyan('\nAdd Employee:', chalk.bold('Manager')));
 
 // First, prompt them for info to create a manager
 inquirer.prompt(managerPrompts)
 .then(answers => {
     let employee = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
     employees.push(employee);
+    log(chalk.green("Manager added!\n"));
     // Once the manager is added to the employees array, call a function that asks if they want to add anyone else until they say no, then calls the htmlRenderer.
     addTeamMembers();
 })    
@@ -86,49 +88,37 @@ function addTeamMembers() {
     choices: ["Yes, an Engineer!", "Yes, an Intern!", "No, I'm done adding team members."]}])
     .then(response => {
         if(response.add === "Yes, an Engineer!") {
-            log('Let\'s add an ENGINEER...');
+            log(chalk.cyan('Add Employee:', chalk.bold('Engineer')));
             inquirer.prompt(engineerPrompts)
             .then(answers => {
                 let newEngineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
                 employees.push(newEngineer);
+                log(chalk.green("Engineer added!\n"));
                 addTeamMembers();
             })
             .catch(err => log(chalk.red(err)));
         } else if (response.add === "Yes, an Intern!") {
-            log('Let\'s add an INTERN...');
+            log(chalk.cyan('Add Employee:', chalk.bold('Intern')));
             inquirer.prompt(internPrompts)
             .then(answers => {
                 let newIntern = new Intern(answers.name, answers.id, answers.email, answers.school);
                 employees.push(newIntern);
+                log(chalk.green("Intern added!\n"));
                 addTeamMembers();
             })
             .catch(err => log(chalk.red(err)));
         } else {
-            // After the user has input all employees desired, call the `render` function (required
-            // above) and pass in an array containing all employee objects; the `render` function will
-            // generate and return a block of HTML including templated divs for each employee!
-            log(employees);
-            const htmlText = render(employees);
-            fs.writeFile(outputPath, htmlText, (err) => {
-                if (err) throw err;
-                console.log('The file has been saved!');
-            });
-            // After you have your html, you're now ready to create an HTML file using the HTML
-            // returned from the `render` function. Now write it to a file named `team.html` in the
-            // `output` folder. You can use the variable `outputPath` above target this location.
-            // Hint: you may need to check if the `output` folder exists and create it if it
-            // does not.
+            // After the user has input all employees desired, call the `render` function and pass in the employees array - the `render` function will return a block of HTML
+            
+            const html = render(employees);
 
+            // Create a file using the HTML returned from the `render` function and write it to a file named `team.html` in the`output` folder.
+            
+            fs.writeFile(outputPath, html, (err) => {
+                if (err) throw err;
+                log(chalk.green.bold('\nSuccess!'));
+                log('A team profile html file has been created in the \'output\' folder!');
+            });
         }        
     })        
-}     
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+}
