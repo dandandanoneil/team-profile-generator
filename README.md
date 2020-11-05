@@ -1,5 +1,5 @@
 # Team Profile Generator   
-Command line application that generates html for software engineering team profiles
+Command line application that generates an HTML page with team profiles for a software engineering team. The application uses Inquirer to prompt the user, and builds HTML from existing templates, adding employee info from the user and creating new HTML elements for each team member.
 
 ## Table of Contents
 - [Installation Steps](#installation-steps)
