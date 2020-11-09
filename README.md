@@ -2,11 +2,11 @@
 Command line application that generates an HTML page with team profiles for a software engineering team. The application uses Inquirer to prompt the user, and builds HTML from existing templates, adding employee info from the user and creating new HTML elements for each team member.
 
 ## Table of Contents
-- [Installation Steps](#installation-steps)
+- [Installation Steps](#installation)
 - [Usage Instructions](#usage-instructions)
+- [Screen Recording](#screen-recording)
+- [Sample HTML Output](#sample-html-output)
 - [Licenses](#licenses)
-- [Contribution Guidelines](#contribution-guidelines)
-- [Testing Instructions](#testing-instructions)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
